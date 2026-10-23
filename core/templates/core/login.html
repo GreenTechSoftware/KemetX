@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% block title %}Log in — KemetX{% endblock %}
+{% block content %}
+  <section class="account-page">
+    <div class="account-aside"><span class="account-aside-mark">KX</span><p class="eyebrow">BACK TO YOUR COMMUNITY</p><h1>Your next<br><span>move awaits.</span></h1><p>Pick up where you left off—your people and possibilities are right here.</p></div>
+    <div class="form-panel"><p class="form-kicker">WELCOME BACK</p><h2>Log in to KemetX</h2><form method="post" class="site-form">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+      <label for="{{ form.username.id_for_label }}">Username</label>{{ form.username }}
+      {% for error in form.username.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <label for="{{ form.password.id_for_label }}">Password</label>{{ form.password }}
+      {% for error in form.password.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="button button-primary form-submit" type="submit">Log in <span>→</span></button>
+    </form><p class="form-foot">New to KemetX? <a href="{% url 'register' %}">Create an account</a></p></div>
+  </section>
+{% endblock %}

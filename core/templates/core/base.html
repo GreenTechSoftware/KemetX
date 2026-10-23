@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KemetX connects Egyptian freelancers, clients, and makers.">
+    <title>{% block title %}KemetX — Egyptian talent, extraordinary work{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="{% url 'home' %}" aria-label="KemetX home">
+        <span class="brand-mark" aria-hidden="true">K</span>
+        <span>Kemet<span class="brand-light">X</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="{% url 'jobs' %}">Find work</a>
+        <a href="{% url 'market' %}">Made in Egypt</a>
+        <a href="{% url 'faq' %}">FAQ</a>
+      </nav>
+      <div class="header-actions">
+        {% if user.is_authenticated %}
+          <span class="account-role">{% if user.profile %}{{ user.profile.get_role_display }}{% else %}Member{% endif %}</span>
+          <a class="nav-login" href="{% url 'dashboard' %}">Dashboard</a>
+          <a class="nav-login" href="{% url 'profile_settings' %}">Account</a>
+          <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="nav-button" type="submit">Log out</button></form>
+        {% else %}
+          <a class="nav-login" href="{% url 'login' %}">Log in</a>
+          <a class="header-link" href="{% url 'register' %}">Join KemetX <span aria-hidden="true">↗</span></a>
+        {% endif %}
+      </div>
+    </header>
+
+    {% if messages %}
+      <div class="message-stack" aria-live="polite">
+        {% for message in messages %}<div class="message message-{{ message.tags }}">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="{% url 'home' %}"><span class="brand-mark" aria-hidden="true">K</span><span>Kemet<span class="brand-light">X</span></span></a>
+      <span>© {% now "Y" %} KemetX · Made with pride in Egypt <span class="egypt-flag" role="img" aria-label="Flag of Egypt">🇪🇬</span></span>
+      <a href="{% url 'faq' %}">Help & FAQ <span aria-hidden="true">↗</span></a>
+    </footer>
+  </body>
+</html>

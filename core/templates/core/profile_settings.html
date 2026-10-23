@@ -1,0 +1,6 @@
+{% extends "core/base.html" %}
+{% block title %}Account settings — KemetX{% endblock %}
+{% block content %}
+  <section class="faq-hero"><p class="eyebrow"><span class="eyebrow-line"></span> YOUR KEMETX ACCOUNT</p><h1>Keep your<br><span>details up to date.</span></h1><p>Your mobile number is used to prepare Paymob checkout for marketplace purchases.</p></section>
+  <section class="form-panel account-settings-panel"><p class="form-kicker">{{ user.username }} · {% if user.profile %}{{ user.profile.get_role_display }}{% endif %}</p><h2>Contact details</h2><form method="post" class="site-form">{% csrf_token %}{% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}{% endfor %}<button class="button button-primary form-submit" type="submit">Save details <span>→</span></button></form></section>
+{% endblock %}

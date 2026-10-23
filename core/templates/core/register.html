@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% block title %}Join KemetX — Egypt's independent work community{% endblock %}
+{% block content %}
+  <section class="account-page">
+    <div class="account-aside"><span class="account-aside-mark">KX</span><p class="eyebrow">A PLACE FOR WHAT YOU DO</p><h1>Good things<br><span>start together.</span></h1><p>Join the community connecting Egypt’s freelancers, clients, and makers.</p><span class="aside-flag">MADE WITH PRIDE IN EGYPT 🇪🇬</span></div>
+    <div class="form-panel"><p class="form-kicker">YOUR COMMUNITY STARTS HERE</p><h2>Create your account</h2><form method="post" class="site-form">{% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+      <label for="{{ form.username.id_for_label }}">Username</label>{{ form.username }}{% for error in form.username.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <label for="{{ form.email.id_for_label }}">Email</label>{{ form.email }}{% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <label>How will you use KemetX?</label><div class="role-options">{% for choice in form.role %}<label class="role-choice">{{ choice.tag }}<span><strong>{{ choice.choice_label }}</strong><small>{% if choice.data.value == "client" %}Hire independent talent{% elif choice.data.value == "maker" %}Sell handmade products{% else %}Find freelance work{% endif %}</small></span></label>{% endfor %}</div>{% for error in form.role.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <label for="{{ form.city.id_for_label }}">City <span class="optional-label">optional</span></label>{{ form.city }}
+      <label for="{{ form.phone.id_for_label }}">Egyptian mobile number</label>{{ form.phone }}{% for error in form.phone.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <label for="{{ form.password1.id_for_label }}">Password</label>{{ form.password1 }}{% for error in form.password1.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <label for="{{ form.password2.id_for_label }}">Confirm password</label>{{ form.password2 }}{% for error in form.password2.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+      <button class="button button-primary form-submit" type="submit">Create my account <span>→</span></button>
+    </form><p class="form-foot">Already part of the community? <a href="{% url 'login' %}">Log in</a></p></div>
+  </section>
+{% endblock %}
